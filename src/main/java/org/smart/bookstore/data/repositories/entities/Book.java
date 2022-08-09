@@ -13,7 +13,7 @@ public class Book {
     private String description;
     private String author;
     private String type;
-    private String price;
+    private int price;
 
     public int getISBN() {
         return ISBN;
@@ -55,11 +55,11 @@ public class Book {
         this.type = type;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 }

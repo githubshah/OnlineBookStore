@@ -1,35 +1,42 @@
 package org.smart.bookstore.services.impl;
 
-import org.smart.bookstore.dto.BookDto;
+import org.smart.bookstore.data.repositories.BookRepository;
+import org.smart.bookstore.data.repositories.entities.Book;
 import org.smart.bookstore.services.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public class BookServiceImpl implements BookService<BookDto> {
+@Service
+public class BookServiceImpl implements BookService<Book> {
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @Override
-    public Optional<BookDto> get(long id) {
+    public Optional<Book> get(long id) {
         return Optional.empty();
     }
 
     @Override
-    public List<BookDto> getAll() {
+    public List<Book> getAll() {
         return null;
     }
 
     @Override
-    public void save(BookDto book) {
+    public void save(Book book) {
+        bookRepository.save(book);
+    }
+
+    @Override
+    public void update(Book book, String[] params) {
 
     }
 
     @Override
-    public void update(BookDto book, String[] params) {
-
-    }
-
-    @Override
-    public void delete(BookDto book) {
+    public void delete(Book book) {
 
     }
 }
