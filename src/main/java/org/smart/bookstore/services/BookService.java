@@ -16,4 +16,6 @@ public interface BookService<T> {
     void update(T t, String[] params);
     
     void delete(T t);
+
+    boolean delete(long t);
 }
