@@ -1,6 +1,7 @@
 package org.smart.bookstore.controllers;
 
 import org.smart.bookstore.data.repositories.entities.Book;
+import org.smart.bookstore.model.Cart;
 import org.smart.bookstore.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping(path = "")
-    public ResponseEntity<List<Book>> getBook(@RequestParam Optional<Long> id) {
+    public ResponseEntity<List<Book>> getBook(@RequestParam Optional<Integer> id) {
         return id.map(bookId -> bookService.findOneById(bookId)
                         .map(book -> new ResponseEntity<>(Collections.singletonList(book), HttpStatus.OK))
                         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND)))
@@ -27,7 +28,7 @@ public class BookController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Book> getBookVaiPath(@PathVariable("id") Long id) {
+    public ResponseEntity<Book> getBookVaiPath(@PathVariable("id") Integer id) {
         return bookService.findOneById(id)
                 .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -45,9 +46,10 @@ public class BookController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(path = "")
-    public ResponseEntity<Object> checkout(@RequestBody List<Integer> bookIds) {
-
+    @PostMapping(path = "checkout")
+    public Cart checkout(@RequestBody Cart cart) {
+        ///return new ResponseEntity<>(bookService.checkout(cart), HttpStatus.OK);
+        return bookService.checkout(cart);
 
     }
 }

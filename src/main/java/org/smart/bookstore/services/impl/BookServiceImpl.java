@@ -2,13 +2,16 @@ package org.smart.bookstore.services.impl;
 
 import org.smart.bookstore.data.repositories.BookRepository;
 import org.smart.bookstore.data.repositories.entities.Book;
+import org.smart.bookstore.model.Cart;
 import org.smart.bookstore.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -30,8 +33,8 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
 
     @Override
-    public Optional<Book> findOneById(long id) {
-        return list.stream().filter(x -> x.getISBN() == id).findFirst();
+    public Optional<Book> findOneById(Integer id) {
+        return Optional.of(bookRepository.getOne(id));
     }
 
     @Override
@@ -48,5 +51,43 @@ public class BookServiceImpl implements BookService {
     public Optional<Integer> delete(int id) {
         bookRepository.deleteById(id);
         return Optional.of(id);
+    }
+
+    @Override
+    public Cart checkout(Cart cart) {
+        Map<String, Double> collect = cart.getBooksIds()
+                .stream()
+                .map(this::findOneById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .peek(x -> cart.addBook(new Book(x.getISBN(),x.getName(),x.getDescription(),x.getAuthor(),x.getType(),x.getPrice())))
+                .collect(Collectors.groupingBy(Book::getType, Collectors.summingDouble(Book::getPrice)));
+
+        cart.setBooksIds(null);
+
+        double[] total = {0.0};
+
+        collect.keySet()
+                .forEach(q1 -> {
+                    if ("fiction".equals(q1)) {
+                        total[0] += percentageOf(20, collect.get(q1));
+                        cart.addMessage(String.format("%s percent of %s = %s", 20, collect.get(q1), total[0]));
+                    }
+                });
+
+        if(cart.getPromoCode() != null && cart.getPromoCode().isPresent()){
+            Integer promoCode = cart.getPromoCode().get();
+            int flatDiscount = promoCode < 100 ? 100 : 200;
+            double beforeFlat = total[0];
+            total[0]  = total[0] - flatDiscount;
+            cart.addMessage(String.format("%s flat discount on amount %s = %s", flatDiscount,beforeFlat, total[0]));
+        }
+
+        cart.setTotal(Optional.of(total[0]));
+        return cart;
+    }
+
+    private double percentageOf(int percent, Double sum) {
+        return (sum * percent) / 100.0;
     }
 }

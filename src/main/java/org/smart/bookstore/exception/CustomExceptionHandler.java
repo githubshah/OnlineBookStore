@@ -17,6 +17,7 @@ public class CustomExceptionHandler
     @ExceptionHandler(ServletRequestBindingException.class)
     public final ResponseEntity<Object> handleHeaderException(Exception ex, WebRequest request) 
     {
+        ex.printStackTrace();
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse("Bad Request", details);
@@ -26,6 +27,7 @@ public class CustomExceptionHandler
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) 
     {
+        ex.printStackTrace();
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse("Server Error", details);
