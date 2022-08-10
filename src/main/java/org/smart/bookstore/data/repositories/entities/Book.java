@@ -12,13 +12,13 @@ public class Book {
     private String name;
     private String description;
     private String author;
-    private String type;
+    private BookType type;
     private int price;
 
     public Book() {
     }
 
-    public Book(int ISBN, String name, String description, String author, String type, int price) {
+    public Book(int ISBN, String name, String description, String author, BookType type, int price) {
         this.ISBN = ISBN;
         this.name = name;
         this.description = description;
@@ -59,11 +59,11 @@ public class Book {
         this.author = author;
     }
 
-    public String getType() {
+    public BookType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(BookType type) {
         this.type = type;
     }
 

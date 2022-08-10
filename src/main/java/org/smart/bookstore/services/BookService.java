@@ -1,6 +1,7 @@
 package org.smart.bookstore.services;
 
 import org.smart.bookstore.data.repositories.entities.Book;
+import org.smart.bookstore.data.repositories.entities.Discount;
 import org.smart.bookstore.model.Cart;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface BookService {
     Optional<Integer> delete(int t);
 
     Cart checkout(List<Object> books, Optional<Integer> promoCode);
+
+    Discount saveDiscount(Discount discount);
 }
