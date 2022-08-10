@@ -11,19 +11,19 @@ import java.util.Optional;
 public
 class Cart {
     Optional<Integer> promoCode;
-    Optional<Double> total;
+    Optional<Double> payableAmount;
     Optional<List<String>> message;
 
     public Optional<Integer> getPromoCode() {
         return promoCode;
     }
 
-    public Optional<Double> getTotal() {
-        return total;
+    public Optional<Double> getPayableAmount() {
+        return payableAmount;
     }
 
-    public void setTotal(Optional<Double> total) {
-        this.total = total;
+    public void setPayableAmount(Optional<Double> payableAmount) {
+        this.payableAmount = payableAmount;
     }
 
     synchronized public void addMessage(String info) {

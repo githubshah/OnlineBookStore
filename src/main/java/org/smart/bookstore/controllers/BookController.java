@@ -2,6 +2,7 @@ package org.smart.bookstore.controllers;
 
 import org.smart.bookstore.data.repositories.entities.Book;
 import org.smart.bookstore.data.repositories.entities.Discount;
+import org.smart.bookstore.data.repositories.entities.PromoCode;
 import org.smart.bookstore.model.Cart;
 import org.smart.bookstore.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,10 @@ public class BookController {
     @PostMapping(path = "discount")
     public ResponseEntity<Discount> checkout1(@RequestBody Discount discount) {
         return new ResponseEntity<>(bookService.saveDiscount(discount), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "promocode")
+    public ResponseEntity<PromoCode> promocode(@RequestBody PromoCode promoCode) {
+        return new ResponseEntity<>(bookService.savePromoCode(promoCode), HttpStatus.OK);
     }
 }

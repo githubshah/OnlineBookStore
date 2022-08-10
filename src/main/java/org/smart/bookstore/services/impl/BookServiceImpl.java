@@ -2,9 +2,11 @@ package org.smart.bookstore.services.impl;
 
 import org.smart.bookstore.data.repositories.BookRepository;
 import org.smart.bookstore.data.repositories.DiscountRepository;
+import org.smart.bookstore.data.repositories.PromoCodeRepository;
 import org.smart.bookstore.data.repositories.entities.Book;
 import org.smart.bookstore.data.repositories.entities.BookType;
 import org.smart.bookstore.data.repositories.entities.Discount;
+import org.smart.bookstore.data.repositories.entities.PromoCode;
 import org.smart.bookstore.model.Cart;
 import org.smart.bookstore.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     private DiscountRepository discountRepository;
+
+    @Autowired
+    private PromoCodeRepository promoCodeRepository;
 
     @Autowired
     private BookRepository bookRepository;
@@ -53,6 +58,7 @@ public class BookServiceImpl implements BookService {
 
     private Cart checkoutBookIds(List<Integer> booksIds, Optional<Integer> promoCode) {
         Cart cart = new Cart();
+        double[] total = {0.0};
 
         /**
          * Calculate sum group by Book category.
@@ -65,7 +71,6 @@ public class BookServiceImpl implements BookService {
                 .peek(x -> cart.addBook(new Book(x.getISBN(), x.getName(), x.getDescription(), x.getAuthor(), x.getType(), x.getPrice())))
                 .collect(Collectors.groupingBy(Book::getType, Collectors.summingDouble(Book::getPrice)));
 
-        double[] total = {0.0};
 
         /**
          * Apply Discount as per Book category
@@ -74,8 +79,11 @@ public class BookServiceImpl implements BookService {
                 .forEach(discountType -> {
                     discountRepository.getOneByDiscountTypeAndActiveTrue(discountType)
                             .ifPresent(oneByDiscountType -> {
-                                total[0] += percentageOf(oneByDiscountType.getValue(), collect.get(discountType));
-                                cart.addMessage(String.format("%s percent of %s = %s", oneByDiscountType, collect.get(discountType), total[0]));
+                                int discountPercentage = oneByDiscountType.getValue();
+                                double discountAmount = percentageOf(discountPercentage, collect.get(discountType));
+                                Double payableAmount = collect.get(discountType);
+                                total[0] += (payableAmount - discountAmount);
+                                cart.addMessage(String.format("%s percent of Rs.%s is Rs.%s", discountPercentage, payableAmount ,discountAmount));
                             });
                 });
 
@@ -84,13 +92,27 @@ public class BookServiceImpl implements BookService {
          */
         if (promoCode != null && promoCode.isPresent()) {
             Integer promoCodeValue = promoCode.get();
-            int flatDiscount = promoCodeValue < 100 ? 100 : 200;
-            double beforeFlat = total[0];
-            total[0] = total[0] - flatDiscount;
-            cart.addMessage(String.format("%s flat discount on amount %s = %s", flatDiscount, beforeFlat, total[0]));
+            Optional<PromoCode> byCode = promoCodeRepository.findByCode(promoCodeValue);
+            if (byCode.isPresent()) {
+                PromoCode promoCodeValueVar = byCode.get();
+                if (promoCodeValueVar.isActive()) {
+                    int flatDiscount = promoCodeValueVar.getFlatDiscount();
+                    double beforeFlatDiscount = total[0];
+                    if (beforeFlatDiscount >= promoCodeValueVar.getDiscountApplicableAmount()) {
+                        total[0] = total[0] - flatDiscount;
+                        cart.addMessage(String.format("Flat Rs.%s discount on amount Rs.%s is Rs.%s", flatDiscount, beforeFlatDiscount, total[0]));
+                    } else {
+                        cart.addMessage(String.format("Flat Rs.%s off on minimum order value Rs.%s", flatDiscount, promoCodeValueVar.getDiscountApplicableAmount()));
+                    }
+                } else {
+                    cart.addMessage(String.format("Promo code %s is not valid or inactive", promoCodeValueVar));
+                }
+            } else {
+                cart.addMessage(String.format("Promo code %s is not valid or inactive", promoCodeValue));
+            }
         }
 
-        cart.setTotal(Optional.of(total[0]));
+        cart.setPayableAmount(Optional.of(total[0]));
         return cart;
     }
 
@@ -101,5 +123,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public Discount saveDiscount(Discount discount) {
         return discountRepository.save(discount);
+    }
+
+    @Override
+    public PromoCode savePromoCode(PromoCode promoCode) {
+        return promoCodeRepository.save(promoCode);
     }
 }
