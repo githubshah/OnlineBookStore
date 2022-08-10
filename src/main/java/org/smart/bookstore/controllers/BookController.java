@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -17,32 +16,38 @@ import java.util.Optional;
 public class BookController {
 
     @Autowired
-    private BookService bookBookService;
+    private BookService bookService;
 
     @GetMapping(path = "")
     public ResponseEntity<List<Book>> getBook(@RequestParam Optional<Long> id) {
-        return id.map(bookId -> bookBookService.findOneById(bookId)
+        return id.map(bookId -> bookService.findOneById(bookId)
                         .map(book -> new ResponseEntity<>(Collections.singletonList(book), HttpStatus.OK))
                         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND)))
-                .orElse(new ResponseEntity<>(bookBookService.getAll(), HttpStatus.OK));
+                .orElse(new ResponseEntity<>(bookService.getAll(), HttpStatus.OK));
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Book> getBookVaiPath(@PathVariable("id") Long id) {
-        return bookBookService.findOneById(id)
+        return bookService.findOneById(id)
                 .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Integer> deleteBookViaPath(@PathVariable("id") int id) {
-        return bookBookService.delete(id).map(book -> new ResponseEntity<>(book, HttpStatus.OK))
+        return bookService.delete(id).map(book -> new ResponseEntity<>(book, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(path = "")
     public ResponseEntity<Book> deleteBookViaPath(@RequestBody Book book) {
-        return bookBookService.save(book).map(persistBook -> new ResponseEntity<>(persistBook, HttpStatus.CREATED))
+        return bookService.save(book).map(persistBook -> new ResponseEntity<>(persistBook, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping(path = "")
+    public ResponseEntity<Object> checkout(@RequestBody List<Integer> bookIds) {
+
+
     }
 }
