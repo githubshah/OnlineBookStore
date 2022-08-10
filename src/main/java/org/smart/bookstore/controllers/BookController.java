@@ -48,6 +48,6 @@ public class BookController {
 
     @PostMapping(path = "checkout")
     public ResponseEntity<Cart> checkout(@RequestBody List<Object> books, @RequestParam("promoCode") Optional<Integer> promoCode) {
-        return new ResponseEntity<>(bookService.checkoutBook(books, promoCode), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.checkout(books, promoCode), HttpStatus.OK);
     }
 }

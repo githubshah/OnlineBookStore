@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @Service
 public class BookServiceImpl implements BookService {
 
-
     private static List<Book> list = new ArrayList();
 
     static {
@@ -51,7 +50,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Cart checkoutBook(List<Object> books, Optional<Integer> promoCode) {
+    public Cart checkout(List<Object> books, Optional<Integer> promoCode) {
         List<Integer> bookIds = books.stream()
                 .map(x -> x instanceof LinkedHashMap ? ((Integer) ((LinkedHashMap<?, ?>) x).get("isbn")) : ((Integer) x))
                 .collect(Collectors.toList());
