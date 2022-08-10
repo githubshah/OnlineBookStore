@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BookServiceImpl implements BookService<Book> {
+public class BookServiceImpl implements BookService {
 
 
     private static List<Book> list = new ArrayList();
@@ -30,7 +30,7 @@ public class BookServiceImpl implements BookService<Book> {
     private BookRepository bookRepository;
 
     @Override
-    public Optional<Book> get(long id) {
+    public Optional<Book> findOneById(long id) {
         return list.stream().filter(x -> x.getISBN() == id).findFirst();
     }
 

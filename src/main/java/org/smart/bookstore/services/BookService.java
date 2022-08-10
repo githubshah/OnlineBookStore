@@ -5,17 +5,17 @@ import org.smart.bookstore.data.repositories.entities.Book;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookService<T> {
+public interface BookService {
     
-    Optional<T> get(long id);
+    Optional<Book> findOneById(long id);
     
     List<Book> getAll();
     
-    void save(T t);
+    void save(Book t);
     
-    void update(T t, String[] params);
+    void update(Book t, String[] params);
     
-    void delete(T t);
+    void delete(Book t);
 
     boolean delete(long t);
 }

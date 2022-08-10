@@ -22,20 +22,19 @@ public class BookController {
         return bookBookService.getAll();
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Book> getBookByPath(@PathVariable("id") Long id) {
-        Optional<Book> optional = bookBookService.get(id);
-        if (!optional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @GetMapping(path = "")
+    public ResponseEntity<Book> getBookByParam(@RequestParam Long id) {
+        return bookBookService.findOneById(id)
+                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
-        Book book = optional.get();
-        return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
-    @GetMapping(path = "")
-    public java.util.Optional getBookByParam(@RequestParam Long id) {
-        return bookBookService.get(id);
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Book> getBookByPath(@PathVariable("id") Long id) {
+        return bookBookService.findOneById(id)
+                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping(path = "/{id}")
