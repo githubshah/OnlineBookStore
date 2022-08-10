@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -26,7 +27,7 @@ public class BookStoreApplicationTests {
         RestTemplate restTemplate = new RestTemplate();
         final String baseUrl = "http://localhost:" + randomServerPort + "/";
         URI uri = new URI(baseUrl);
-        ResponseEntity<Book> result = restTemplate.getForEntity(uri, Book.class);
-        System.out.println(result);
+        ResponseEntity<List> result = restTemplate.getForEntity(uri, List.class);
+        System.out.println(result.getBody());
     }
 }

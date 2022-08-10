@@ -15,6 +15,18 @@ public class Book {
     private String type;
     private int price;
 
+    public Book() {
+    }
+
+    public Book(int ISBN, String name, String description, String author, String type, int price) {
+        this.ISBN = ISBN;
+        this.name = name;
+        this.description = description;
+        this.author = author;
+        this.type = type;
+        this.price = price;
+    }
+
     public int getISBN() {
         return ISBN;
     }
@@ -61,5 +73,17 @@ public class Book {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "ISBN=" + ISBN +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", author='" + author + '\'' +
+                ", type='" + type + '\'' +
+                ", price=" + price +
+                '}';
     }
 }
