@@ -54,16 +54,22 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Cart checkout(Cart cart) {
-        Map<String, Double> collect = cart.getBooksIds()
+    public Cart checkoutBook(List<Book> books, Optional<Integer> promoCode) {
+        List<Integer> booksIds = books.stream().map(Book::getISBN).collect(Collectors.toList());
+        return checkoutBookIds(booksIds, promoCode);
+    }
+
+    @Override
+    public Cart checkoutBookIds(List<Integer> booksIds, Optional<Integer> promoCode) {
+        Cart cart = new Cart();
+
+        Map<String, Double> collect = booksIds
                 .stream()
                 .map(this::findOneById)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .peek(x -> cart.addBook(new Book(x.getISBN(),x.getName(),x.getDescription(),x.getAuthor(),x.getType(),x.getPrice())))
+                .peek(x -> cart.addBook(new Book(x.getISBN(), x.getName(), x.getDescription(), x.getAuthor(), x.getType(), x.getPrice())))
                 .collect(Collectors.groupingBy(Book::getType, Collectors.summingDouble(Book::getPrice)));
-
-        cart.setBooksIds(null);
 
         double[] total = {0.0};
 
@@ -75,12 +81,12 @@ public class BookServiceImpl implements BookService {
                     }
                 });
 
-        if(cart.getPromoCode() != null && cart.getPromoCode().isPresent()){
-            Integer promoCode = cart.getPromoCode().get();
-            int flatDiscount = promoCode < 100 ? 100 : 200;
+        if (promoCode != null && promoCode.isPresent()) {
+            Integer promoCodeValue = promoCode.get();
+            int flatDiscount = promoCodeValue < 100 ? 100 : 200;
             double beforeFlat = total[0];
-            total[0]  = total[0] - flatDiscount;
-            cart.addMessage(String.format("%s flat discount on amount %s = %s", flatDiscount,beforeFlat, total[0]));
+            total[0] = total[0] - flatDiscount;
+            cart.addMessage(String.format("%s flat discount on amount %s = %s", flatDiscount, beforeFlat, total[0]));
         }
 
         cart.setTotal(Optional.of(total[0]));

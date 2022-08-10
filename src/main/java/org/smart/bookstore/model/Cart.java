@@ -8,28 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Cart {
-
-    public void setBooksIds(List<Integer> booksIds) {
-        this.booksIds = booksIds;
-    }
-    List<Integer> booksIds;
-
-    List<Book> books;
-
+public
+class Cart {
     Optional<Integer> promoCode;
     Optional<Double> total;
-
-    public Optional<List<String>> getMessage() {
-        return message;
-    }
-
     Optional<List<String>> message;
-
-
-    public List<Integer> getBooksIds() {
-        return booksIds;
-    }
 
     public Optional<Integer> getPromoCode() {
         return promoCode;
@@ -50,13 +33,18 @@ public class Cart {
         message.get().add(info);
     }
 
+    public Optional<List<String>> getMessage() {
+        return message;
+    }
+
+    List<Book> books;
+
     synchronized public void addBook(Book info) {
         if (books == null) {
             this.books = new ArrayList<>();
         }
         books.add(info);
     }
-
 
     public List<Book> getBooks() {
         return books;
