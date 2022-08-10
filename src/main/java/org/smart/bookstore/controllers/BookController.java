@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "books")
@@ -16,17 +18,12 @@ public class BookController {
     @Autowired
     private BookService bookBookService;
 
-    @GetMapping(path = "/")
-    public List<Book> getBook() {
-        return bookBookService.getAll();
-    }
-
     @GetMapping(path = "")
-    public ResponseEntity<Book> getBookViaRequestParam(@RequestParam Long id) {
-        return bookBookService.findOneById(id)
-                .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-
+    public ResponseEntity<List<Book>> getBook(@RequestParam Optional<Long> id) {
+        return id.map(bookId -> bookBookService.findOneById(bookId)
+                        .map(book -> new ResponseEntity<>(Arrays.asList(book), HttpStatus.OK))
+                        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND)))
+                .orElse(new ResponseEntity<>(bookBookService.getAll(), HttpStatus.OK));
     }
 
     @GetMapping(path = "/{id}")
