@@ -47,9 +47,8 @@ public class BookController {
     }
 
     @PostMapping(path = "checkout")
-    public Cart checkout(@RequestBody Cart cart) {
-        ///return new ResponseEntity<>(bookService.checkout(cart), HttpStatus.OK);
-        return bookService.checkout(cart);
+    public ResponseEntity<Cart> checkout(@RequestBody Cart cart) {
+        return new ResponseEntity<>(bookService.checkout(cart), HttpStatus.OK);
 
     }
 }
