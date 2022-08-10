@@ -54,6 +54,9 @@ public class BookServiceImpl implements BookService {
     private Cart checkoutBookIds(List<Integer> booksIds, Optional<Integer> promoCode) {
         Cart cart = new Cart();
 
+        /**
+         * Calculate sum group by Book category.
+         */
         Map<BookType, Double> collect = booksIds
                 .stream()
                 .map(this::findOneById)
@@ -64,13 +67,21 @@ public class BookServiceImpl implements BookService {
 
         double[] total = {0.0};
 
+        /**
+         * Apply Discount as per Book category
+         */
         collect.keySet()
                 .forEach(discountType -> {
-                    int oneByDiscountType = discountRepository.getOneByDiscountType(discountType).getValue();
-                    total[0] += percentageOf(oneByDiscountType, collect.get(discountType));
-                    cart.addMessage(String.format("%s percent of %s = %s", discountRepository.getOneByDiscountType(discountType), collect.get(discountType), total[0]));
+                    discountRepository.getOneByDiscountTypeAndActiveTrue(discountType)
+                            .ifPresent(oneByDiscountType -> {
+                                total[0] += percentageOf(oneByDiscountType.getValue(), collect.get(discountType));
+                                cart.addMessage(String.format("%s percent of %s = %s", oneByDiscountType, collect.get(discountType), total[0]));
+                            });
                 });
 
+        /**
+         * Apply Promo Code as per given in HttpRequest.
+         */
         if (promoCode != null && promoCode.isPresent()) {
             Integer promoCodeValue = promoCode.get();
             int flatDiscount = promoCodeValue < 100 ? 100 : 200;
