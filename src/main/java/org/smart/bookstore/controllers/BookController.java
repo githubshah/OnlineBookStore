@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class BookController {
     @GetMapping(path = "")
     public ResponseEntity<List<Book>> getBook(@RequestParam Optional<Long> id) {
         return id.map(bookId -> bookBookService.findOneById(bookId)
-                        .map(book -> new ResponseEntity<>(Arrays.asList(book), HttpStatus.OK))
+                        .map(book -> new ResponseEntity<>(Collections.singletonList(book), HttpStatus.OK))
                         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND)))
                 .orElse(new ResponseEntity<>(bookBookService.getAll(), HttpStatus.OK));
     }
