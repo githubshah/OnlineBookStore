@@ -16,7 +16,5 @@ public interface BookService {
     
     Optional<Integer> delete(int t);
 
-    Cart checkoutBook(List<Book> books, Optional<Integer> promoCode);
-
-    Cart checkoutBookIds(List<Integer> booksIds, Optional<Integer> promoCode);
+    Cart checkoutBook(List<Object> books, Optional<Integer> promoCode);
 }

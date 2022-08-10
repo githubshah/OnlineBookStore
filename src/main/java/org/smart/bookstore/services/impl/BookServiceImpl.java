@@ -7,10 +7,7 @@ import org.smart.bookstore.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,13 +51,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Cart checkoutBook(List<Book> books, Optional<Integer> promoCode) {
-        List<Integer> booksIds = books.stream().map(Book::getISBN).collect(Collectors.toList());
-        return checkoutBookIds(booksIds, promoCode);
+    public Cart checkoutBook(List<Object> books, Optional<Integer> promoCode) {
+        List<Integer> bookIds = books.stream()
+                .map(x -> x instanceof LinkedHashMap ? ((Integer) ((LinkedHashMap<?, ?>) x).get("isbn")) : ((Integer) x))
+                .collect(Collectors.toList());
+        return checkoutBookIds(bookIds, promoCode);
     }
 
-    @Override
-    public Cart checkoutBookIds(List<Integer> booksIds, Optional<Integer> promoCode) {
+    private Cart checkoutBookIds(List<Integer> booksIds, Optional<Integer> promoCode) {
         Cart cart = new Cart();
 
         Map<String, Double> collect = booksIds
