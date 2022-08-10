@@ -13,8 +13,8 @@ public class BookController {
     BookService bookBookService;
 
 
-    @GetMapping
-    public void main(){
+    @GetMapping(path="/", produces = "application/json")
+    public Book main(){
 
         Book book = new Book();
         book.setAuthor("shaid");
@@ -22,6 +22,7 @@ public class BookController {
         book.setName("shaidhussain");
         book.setType("hoo");
 
-        bookBookService.save(book);
+        //bookBookService.save(book);
+        return book;
     }
 }
