@@ -78,12 +78,12 @@ public class BookServiceImpl implements BookService {
         collect.keySet()
                 .forEach(discountType -> {
                     discountRepository.getOneByDiscountTypeAndActiveTrue(discountType)
-                            .ifPresent(oneByDiscountType -> {
-                                int discountPercentage = oneByDiscountType.getValue();
+                            .ifPresent(discountTypeVar -> {
+                                int discountPercentage = discountTypeVar.getValue();
                                 double discountAmount = percentageOf(discountPercentage, collect.get(discountType));
                                 Double payableAmount = collect.get(discountType);
                                 total[0] += (payableAmount - discountAmount);
-                                cart.addMessage(String.format("%s percent of Rs.%s is Rs.%s", discountPercentage, payableAmount ,discountAmount));
+                                cart.addMessage(String.format("%s percent discount on %s Books of Rs.%s is Rs.%s", discountPercentage, discountType, payableAmount ,discountAmount));
                             });
                 });
 
