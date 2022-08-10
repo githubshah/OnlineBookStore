@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "books")
@@ -23,7 +22,7 @@ public class BookController {
     }
 
     @GetMapping(path = "")
-    public ResponseEntity<Book> getBookByParam(@RequestParam Long id) {
+    public ResponseEntity<Book> getBookViaRequestParam(@RequestParam Long id) {
         return bookBookService.findOneById(id)
                 .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -31,20 +30,15 @@ public class BookController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Book> getBookByPath(@PathVariable("id") Long id) {
+    public ResponseEntity<Book> getBookVaiPath(@PathVariable("id") Long id) {
         return bookBookService.findOneById(id)
                 .map(book -> new ResponseEntity<>(book, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Long> deleteBookByPath(@PathVariable("id") long id) {
-        boolean isRemoved = bookBookService.delete(id);
-
-        if (!isRemoved) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(id, HttpStatus.OK);
+    public ResponseEntity<Book> deleteBookViaPath(@PathVariable("id") long id) {
+        return bookBookService.delete(id).map(book -> new ResponseEntity<>(book, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

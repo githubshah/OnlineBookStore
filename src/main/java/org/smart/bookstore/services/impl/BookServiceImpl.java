@@ -55,7 +55,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean delete(long id) {
-        return list.stream().filter(x -> x.getISBN() == id).findFirst().isPresent();
+    public Optional<Book> delete(long id) {
+        return list.stream().filter(x -> x.getISBN() == id).findFirst();
     }
 }

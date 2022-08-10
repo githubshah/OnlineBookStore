@@ -17,5 +17,5 @@ public interface BookService {
     
     void delete(Book t);
 
-    boolean delete(long t);
+    Optional<Book> delete(long t);
 }
