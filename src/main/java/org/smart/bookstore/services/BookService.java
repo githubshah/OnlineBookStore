@@ -10,8 +10,8 @@ public interface BookService {
     Optional<Book> findOneById(long id);
     
     List<Book> getAll();
-    
-    void save(Book t);
+
+    Optional<Book> save(Book t);
     
     void update(Book t, String[] params);
     

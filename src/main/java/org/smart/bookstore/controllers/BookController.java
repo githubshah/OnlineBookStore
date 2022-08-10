@@ -39,4 +39,10 @@ public class BookController {
         return bookBookService.delete(id).map(book -> new ResponseEntity<>(book, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @PostMapping(path = "")
+    public ResponseEntity<Book> deleteBookViaPath(@RequestBody Book book) {
+        return bookBookService.save(book).map(persistBook -> new ResponseEntity<>(persistBook, HttpStatus.CREATED))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }
