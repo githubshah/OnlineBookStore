@@ -61,7 +61,7 @@ public class BookServiceImpl implements BookService {
         double[] total = {0.0};
 
         /**
-         * Calculate sum group by Book category.
+         * Calculate sum on group-by Book category.
          */
         Map<BookType, Double> collect = booksIds
                 .stream()
@@ -83,7 +83,7 @@ public class BookServiceImpl implements BookService {
                                 double discountAmount = percentageOf(discountPercentage, collect.get(discountType));
                                 Double payableAmount = collect.get(discountType);
                                 total[0] += (payableAmount - discountAmount);
-                                cart.addMessage(String.format("%s percent discount on %s Books of Rs.%s is Rs.%s", discountPercentage, discountType, payableAmount ,discountAmount));
+                                cart.addMessage(String.format("%s percent discount on %s Books of Rs.%s is Rs.%s", discountPercentage, discountType, payableAmount, discountAmount));
                             });
                 });
 
