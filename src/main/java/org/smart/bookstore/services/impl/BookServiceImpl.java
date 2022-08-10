@@ -43,6 +43,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Discount saveDiscount(Discount discount) {
+        return discountRepository.save(discount);
+    }
+
+    @Override
+    public PromoCode savePromoCode(PromoCode promoCode) {
+        return promoCodeRepository.save(promoCode);
+    }
+
+    @Override
     public Optional<Integer> delete(int id) {
         bookRepository.deleteById(id);
         return Optional.of(id);
@@ -118,15 +128,5 @@ public class BookServiceImpl implements BookService {
 
     private double percentageOf(int percent, Double sum) {
         return (sum * percent) / 100.0;
-    }
-
-    @Override
-    public Discount saveDiscount(Discount discount) {
-        return discountRepository.save(discount);
-    }
-
-    @Override
-    public PromoCode savePromoCode(PromoCode promoCode) {
-        return promoCodeRepository.save(promoCode);
     }
 }
