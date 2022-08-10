@@ -45,17 +45,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void update(Book book, String[] params) {
-
-    }
-
-    @Override
-    public void delete(Book book) {
-
-    }
-
-    @Override
-    public Optional<Book> delete(long id) {
-        return list.stream().filter(x -> x.getISBN() == id).findFirst();
+    public Optional<Integer> delete(int id) {
+        bookRepository.deleteById(id);
+        return Optional.of(id);
     }
 }

@@ -13,9 +13,5 @@ public interface BookService {
 
     Optional<Book> save(Book t);
     
-    void update(Book t, String[] params);
-    
-    void delete(Book t);
-
-    Optional<Book> delete(long t);
+    Optional<Integer> delete(int t);
 }
