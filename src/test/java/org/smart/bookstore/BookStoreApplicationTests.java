@@ -83,6 +83,22 @@ public class BookStoreApplicationTests {
     }
 
     @Test
+    public void checkoutByBooks() throws URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+        final String booksURL = "http://localhost:" + randomServerPort + "/books";
+        URI booksURI = new URI(booksURL);
+        ResponseEntity<List> result = restTemplate.getForEntity(booksURI, List.class);
+
+
+        final String checkoutURL = "http://localhost:" + randomServerPort + "/books/checkout";
+        URI checkoutURI = new URI(checkoutURL);
+
+        Cart cart = restTemplate.postForObject(checkoutURI, result, Cart.class);
+        assert cart != null;
+        Assert.assertEquals(cart.getPayableAmount(), Optional.of(1377.5));
+    }
+
+    @Test
     public void checkoutWithValidPromoCode() throws URISyntaxException {
         RestTemplate restTemplate = new RestTemplate();
         final String baseUrl = "http://localhost:" + randomServerPort + "/books/checkout?promoCode=" + validPromoCode;
