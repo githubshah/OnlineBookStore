@@ -79,8 +79,6 @@ public class BookStoreApplicationTests {
 
     @Test
     public void checkoutWithValidPromoCode() throws URISyntaxException {
-
-
         RestTemplate restTemplate = new RestTemplate();
         final String baseUrl = "http://localhost:" + randomServerPort + "/books/checkout?promoCode=" + validPromoCode;
         URI uri = new URI(baseUrl);
@@ -88,8 +86,8 @@ public class BookStoreApplicationTests {
         int[] arr = {100, 101, 102, 103, 104, 105, 106, 107};
 
         Cart cart = restTemplate.postForObject(uri, arr, Cart.class);
-        Assert.assertEquals(cart.getMessage().get().stream().filter(x -> x.contains(String.format("Promo code %s is invalid or inactive", "flat200"))).findAny(),
-                Optional.empty());
+        Assert.assertEquals(cart.getMessage().get().stream().filter(x -> x.contains("Flat")).findAny(),
+                Optional.of("Flat Rs.200 discount on amount Rs.1377.5 is Rs.1177.5"));
     }
 
     @Test
