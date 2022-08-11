@@ -65,11 +65,33 @@ public class BookStoreApplicationTests {
         final String baseUrl = "http://localhost:" + randomServerPort + "/books/checkout";
         URI uri = new URI(baseUrl);
 
-        int[] arr = {100, 101};
+        int[] arr = {100, 101, 102, 103, 104, 105, 106, 107};
 
         Cart cart = restTemplate.postForObject(uri, arr, Cart.class);
         System.out.println(cart);
+    }
 
+    @Test
+    public void checkoutWithValidPromoCode() throws URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+        final String baseUrl = "http://localhost:" + randomServerPort + "/books/checkout?promoCode=flat200";
+        URI uri = new URI(baseUrl);
 
+        int[] arr = {100, 101, 102, 103, 104, 105, 106, 107};
+
+        Cart cart = restTemplate.postForObject(uri, arr, Cart.class);
+        System.out.println(cart);
+    }
+
+    @Test
+    public void checkoutWithInvalidPromoCode() throws URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+        final String baseUrl = "http://localhost:" + randomServerPort + "/books/checkout?promoCode=flat300";
+        URI uri = new URI(baseUrl);
+
+        int[] arr = {100, 101, 102, 103, 104, 105, 106, 107};
+
+        Cart cart = restTemplate.postForObject(uri, arr, Cart.class);
+        System.out.println(cart);
     }
 }
