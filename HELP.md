@@ -1,0 +1,1 @@
+run start.sh file to up the server
