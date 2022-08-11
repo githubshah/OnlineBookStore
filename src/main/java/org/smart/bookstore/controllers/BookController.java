@@ -59,12 +59,12 @@ public class BookController {
     }
 
     @PostMapping(path = "discount")
-    public ResponseEntity<Discount> checkout1(@RequestBody Discount discount) {
+    public ResponseEntity<Discount> createDiscount(@RequestBody Discount discount) {
         return new ResponseEntity<>(bookService.saveDiscount(discount), HttpStatus.OK);
     }
 
     @PostMapping(path = "promocode")
-    public ResponseEntity<PromoCode> promocode(@RequestBody PromoCode promoCode) {
+    public ResponseEntity<PromoCode> createPromoCode(@RequestBody PromoCode promoCode) {
         return new ResponseEntity<>(bookService.savePromoCode(promoCode), HttpStatus.OK);
     }
 }

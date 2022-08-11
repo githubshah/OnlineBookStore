@@ -4,6 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.smart.bookstore.data.entities.Book;
+import org.smart.bookstore.data.entities.BookType;
+import org.smart.bookstore.data.entities.Discount;
+import org.smart.bookstore.data.entities.PromoCode;
 import org.smart.bookstore.model.Cart;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -105,5 +108,29 @@ public class BookStoreApplicationTests {
         assert cart != null;
         Assert.assertEquals(cart.getMessage().get().stream().filter(x -> x.contains(String.format("Promo code %s is invalid or inactive", "flat300"))).findAny(),
                 Optional.of("Promo code flat300 is invalid or inactive"));
+    }
+
+    @Test
+    public void saveDiscount() throws URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+        final String baseUrl = "http://localhost:" + randomServerPort + "/books/discount";
+        URI uri = new URI(baseUrl);
+
+        Discount discount = new Discount(BookType.FANTASY, 100, true);
+
+        Discount discountPersist = restTemplate.postForObject(uri, discount, Discount.class);
+        assert discountPersist != null;
+    }
+
+    @Test
+    public void savePromoCode() throws URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+        final String baseUrl = "http://localhost:" + randomServerPort + "/books/promocode";
+        URI uri = new URI(baseUrl);
+
+        PromoCode promoCode = new PromoCode("flat400", 100, 1000, true);
+
+        PromoCode promoCodePersist = restTemplate.postForObject(uri, promoCode, PromoCode.class);
+        assert promoCodePersist != null;
     }
 }

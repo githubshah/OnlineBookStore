@@ -56,10 +56,10 @@ VALUES (201, true, 'ACTION', 5);
 INSERT INTO discounts (id, active, discount_type, value)
 VALUES (202, true, 'COMIC', 20);
 
+-----------------------------PROMO CODE---------------------------------
+
 INSERT INTO promocodes (id, active, code, discount_applicable_amount, flat_discount)
 VALUES (301, true, 'flat100', 500, 100);
-
------------------------------PROMO CODE---------------------------------
 
 INSERT INTO promocodes (id, active, code, discount_applicable_amount, flat_discount)
 VALUES (302, true, 'flat200', 1000, 200);
