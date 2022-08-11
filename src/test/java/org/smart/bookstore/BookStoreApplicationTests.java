@@ -89,7 +89,6 @@ public class BookStoreApplicationTests {
         URI booksURI = new URI(booksURL);
         ResponseEntity<List> result = restTemplate.getForEntity(booksURI, List.class);
 
-
         final String checkoutURL = "http://localhost:" + randomServerPort + "/books/checkout";
         URI checkoutURI = new URI(checkoutURL);
 
