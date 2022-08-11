@@ -34,7 +34,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getAll() {
-        return new ArrayList<>();
+        return bookRepository.findAll();
     }
 
     @Override
@@ -115,10 +115,8 @@ public class BookServiceImpl implements BookService {
                         cart.addMessage(String.format("Flat Rs.%s off on minimum order value Rs.%s", flatDiscount, promoCodeValueVar.getDiscountApplicableAmount()));
                     }
                 } else {
-                    cart.addMessage(String.format("Promo code %s is not valid or inactive", promoCodeValueVar));
+                    cart.addMessage(String.format("Promo code %s is not valid or inactive", promoCodeValue));
                 }
-            } else {
-                cart.addMessage(String.format("Promo code %s is not valid or inactive", promoCodeValue));
             }
         }
 
