@@ -1,7 +1,6 @@
 package org.smart.bookstore.data.repositories;
 
-import org.smart.bookstore.data.repositories.entities.Book;
-import org.smart.bookstore.data.repositories.entities.PromoCode;
+import org.smart.bookstore.data.entities.PromoCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

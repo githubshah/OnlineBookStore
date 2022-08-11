@@ -1,19 +1,16 @@
 package org.smart.bookstore.controllers;
 
+import org.smart.bookstore.data.entities.Discount;
+import org.smart.bookstore.data.entities.PromoCode;
 import org.smart.bookstore.data.repositories.entities.Book;
-import org.smart.bookstore.data.repositories.entities.Discount;
-import org.smart.bookstore.data.repositories.entities.PromoCode;
 import org.smart.bookstore.model.Cart;
 import org.smart.bookstore.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

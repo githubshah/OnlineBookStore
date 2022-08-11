@@ -13,6 +13,7 @@ class Cart {
     Optional<Integer> promoCode;
     Optional<Double> payableAmount;
     Optional<List<String>> message;
+    List<Book> books;
 
     public Optional<Integer> getPromoCode() {
         return promoCode;
@@ -36,8 +37,6 @@ class Cart {
     public Optional<List<String>> getMessage() {
         return message;
     }
-
-    List<Book> books;
 
     synchronized public void addBook(Book info) {
         if (books == null) {

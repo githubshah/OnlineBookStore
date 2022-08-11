@@ -1,4 +1,4 @@
-package org.smart.bookstore.data.repositories.entities;
+package org.smart.bookstore.data.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

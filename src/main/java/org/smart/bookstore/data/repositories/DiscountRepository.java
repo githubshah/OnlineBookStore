@@ -1,7 +1,7 @@
 package org.smart.bookstore.data.repositories;
 
-import org.smart.bookstore.data.repositories.entities.BookType;
-import org.smart.bookstore.data.repositories.entities.Discount;
+import org.smart.bookstore.data.entities.BookType;
+import org.smart.bookstore.data.entities.Discount;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

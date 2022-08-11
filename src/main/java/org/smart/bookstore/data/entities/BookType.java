@@ -1,4 +1,4 @@
-package org.smart.bookstore.data.repositories.entities;
+package org.smart.bookstore.data.entities;
 
 public enum BookType {
     TECHNOLOGY,
