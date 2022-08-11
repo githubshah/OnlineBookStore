@@ -12,6 +12,8 @@ public class Book {
     private String name;
     private String description;
     private String author;
+
+    @Enumerated(EnumType.STRING)
     private BookType type;
     private int price;
 

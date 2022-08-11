@@ -1,6 +1,7 @@
 package org.smart.bookstore.data.repositories.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "promocodes")
@@ -9,7 +10,9 @@ public class PromoCode {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private int code;
+    @NotNull
+    @Column(unique = true)
+    private String code;
     private int flatDiscount;
     private int discountApplicableAmount;
     private boolean active;
@@ -17,14 +20,14 @@ public class PromoCode {
     public PromoCode() {
     }
 
-    public PromoCode(int code, int flatDiscount, int discountApplicableAmount, boolean active) {
+    public PromoCode(String code, int flatDiscount, int discountApplicableAmount, boolean active) {
         this.code = code;
         this.flatDiscount = flatDiscount;
         this.discountApplicableAmount = discountApplicableAmount;
         this.active = active;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 

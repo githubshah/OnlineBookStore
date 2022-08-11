@@ -49,7 +49,7 @@ public class BookController {
     }
 
     @PostMapping(path = "checkout")
-    public ResponseEntity<Cart> checkout(@RequestBody List<Object> books, @RequestParam("promoCode") Optional<Integer> promoCode) {
+    public ResponseEntity<Cart> checkout(@RequestBody List<Object> books, @RequestParam("promoCode") Optional<String> promoCode) {
         return new ResponseEntity<>(bookService.checkout(books, promoCode), HttpStatus.OK);
     }
 

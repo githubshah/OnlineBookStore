@@ -59,14 +59,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Cart checkout(List<Object> books, Optional<Integer> promoCode) {
+    public Cart checkout(List<Object> books, Optional<String> promoCode) {
         List<Integer> bookIds = books.stream()
                 .map(x -> x instanceof LinkedHashMap ? ((Integer) ((LinkedHashMap<?, ?>) x).get("isbn")) : ((Integer) x))
                 .collect(Collectors.toList());
         return checkoutBookIds(bookIds, promoCode);
     }
 
-    private Cart checkoutBookIds(List<Integer> booksIds, Optional<Integer> promoCode) {
+    private Cart checkoutBookIds(List<Integer> booksIds, Optional<String> promoCode) {
         Cart cart = new Cart();
         double[] total = {0.0};
 
@@ -101,7 +101,7 @@ public class BookServiceImpl implements BookService {
          * Apply Promo Code as per given in HttpRequest.
          */
         if (promoCode != null && promoCode.isPresent()) {
-            Integer promoCodeValue = promoCode.get();
+            String promoCodeValue = promoCode.get();
             Optional<PromoCode> byCode = promoCodeRepository.findByCode(promoCodeValue);
             if (byCode.isPresent()) {
                 PromoCode promoCodeValueVar = byCode.get();

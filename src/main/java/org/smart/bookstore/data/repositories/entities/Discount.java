@@ -1,6 +1,7 @@
 package org.smart.bookstore.data.repositories.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "discounts")
@@ -10,6 +11,8 @@ public class Discount {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @NotNull
+    @Column(unique = true)
     @Enumerated(EnumType.STRING)
     private BookType discountType;
     private int value;
