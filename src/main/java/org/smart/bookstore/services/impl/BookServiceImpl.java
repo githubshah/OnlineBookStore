@@ -1,12 +1,12 @@
 package org.smart.bookstore.services.impl;
 
+import org.smart.bookstore.data.entities.Book;
 import org.smart.bookstore.data.entities.BookType;
 import org.smart.bookstore.data.entities.Discount;
 import org.smart.bookstore.data.entities.PromoCode;
 import org.smart.bookstore.data.repositories.BookRepository;
 import org.smart.bookstore.data.repositories.DiscountRepository;
 import org.smart.bookstore.data.repositories.PromoCodeRepository;
-import org.smart.bookstore.data.repositories.entities.Book;
 import org.smart.bookstore.model.Cart;
 import org.smart.bookstore.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;

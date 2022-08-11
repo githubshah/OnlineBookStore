@@ -1,7 +1,7 @@
 package org.smart.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.smart.bookstore.data.repositories.entities.Book;
+import org.smart.bookstore.data.entities.Book;
 
 import java.util.ArrayList;
 import java.util.List;
