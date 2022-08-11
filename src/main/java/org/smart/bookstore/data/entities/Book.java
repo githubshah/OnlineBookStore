@@ -21,7 +21,11 @@ public class Book {
     }
 
     public Book(int ISBN, String name, String description, String author, BookType type, int price) {
+        this(name, description, author, type, price);
         this.ISBN = ISBN;
+    }
+
+    public Book(String name, String description, String author, BookType type, int price) {
         this.name = name;
         this.description = description;
         this.author = author;

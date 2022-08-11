@@ -47,12 +47,6 @@ public class BookController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(path = "")
-    public ResponseEntity<Book> deleteBookViaPath(@RequestBody Book book) {
-        return bookService.save(book).map(persistBook -> new ResponseEntity<>(persistBook, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
     @PostMapping(path = "checkout")
     public ResponseEntity<Cart> checkout(@RequestBody List<Object> books, @RequestParam("promoCode") Optional<String> promoCode) {
         return new ResponseEntity<>(bookService.checkout(books, promoCode), HttpStatus.OK);
@@ -66,5 +60,11 @@ public class BookController {
     @PostMapping(path = "promocode")
     public ResponseEntity<PromoCode> createPromoCode(@RequestBody PromoCode promoCode) {
         return new ResponseEntity<>(bookService.savePromoCode(promoCode), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "")
+    public ResponseEntity<Book> createBook(@RequestBody Book book) {
+        return bookService.save(book).map(persistBook -> new ResponseEntity<>(persistBook, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

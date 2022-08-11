@@ -39,7 +39,7 @@ public class BookStoreApplicationTests {
         final String baseUrl = "http://localhost:" + randomServerPort + "/books";
         URI uri = new URI(baseUrl);
         ResponseEntity<List> result = restTemplate.getForEntity(uri, List.class);
-        Assert.assertEquals(Objects.requireNonNull(result.getBody()).size(), 8);
+        Assert.assertEquals(Objects.requireNonNull(result.getBody()).size(), 9);
     }
 
     @Test
@@ -132,5 +132,17 @@ public class BookStoreApplicationTests {
 
         PromoCode promoCodePersist = restTemplate.postForObject(uri, promoCode, PromoCode.class);
         assert promoCodePersist != null;
+    }
+
+    @Test
+    public void saveBook() throws URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+        final String baseUrl = "http://localhost:" + randomServerPort + "/books";
+        URI uri = new URI(baseUrl);
+
+        Book book = new Book("name", "desc", "author", BookType.FANTASY, 100);
+
+        Book bookPersist = restTemplate.postForObject(uri, book, Book.class);
+        assert bookPersist != null;
     }
 }
