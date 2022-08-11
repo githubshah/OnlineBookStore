@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -35,7 +36,7 @@ public class BookStoreApplicationTests {
         final String baseUrl = "http://localhost:" + randomServerPort + "/books";
         URI uri = new URI(baseUrl);
         ResponseEntity<List> result = restTemplate.getForEntity(uri, List.class);
-        Assert.assertEquals(result.getBody().size(), 8);
+        Assert.assertEquals(Objects.requireNonNull(result.getBody()).size(), 8);
     }
 
     @Test
@@ -44,7 +45,7 @@ public class BookStoreApplicationTests {
         final String baseUrl = "http://localhost:" + randomServerPort + "/books?size=2&page=2";
         URI uri = new URI(baseUrl);
         ResponseEntity<List> result = restTemplate.getForEntity(uri, List.class);
-        Assert.assertEquals(result.getBody().size(), 2);
+        Assert.assertEquals(Objects.requireNonNull(result.getBody()).size(), 2);
     }
 
     @Test
@@ -53,7 +54,7 @@ public class BookStoreApplicationTests {
         final String baseUrl = "http://localhost:" + randomServerPort + "/books/100";
         URI uri = new URI(baseUrl);
         ResponseEntity<Book> result = restTemplate.getForEntity(uri, Book.class);
-        Assert.assertEquals(result.getBody().getISBN(), 100);
+        Assert.assertEquals(Objects.requireNonNull(result.getBody()).getISBN(), 100);
     }
 
     @Test
@@ -62,7 +63,7 @@ public class BookStoreApplicationTests {
         final String baseUrl = "http://localhost:" + randomServerPort + "/books?id=100";
         URI uri = new URI(baseUrl);
         ResponseEntity<List> result = restTemplate.getForEntity(uri, List.class);
-        Assert.assertEquals(result.getBody().size(), 1);
+        Assert.assertEquals(Objects.requireNonNull(result.getBody()).size(), 1);
     }
 
     @Test
@@ -74,6 +75,7 @@ public class BookStoreApplicationTests {
         int[] arr = {100, 101, 102, 103, 104, 105, 106, 107};
 
         Cart cart = restTemplate.postForObject(uri, arr, Cart.class);
+        assert cart != null;
         Assert.assertEquals(cart.getPayableAmount(), Optional.of(1377.5));
     }
 
@@ -86,6 +88,7 @@ public class BookStoreApplicationTests {
         int[] arr = {100, 101, 102, 103, 104, 105, 106, 107};
 
         Cart cart = restTemplate.postForObject(uri, arr, Cart.class);
+        assert cart != null;
         Assert.assertEquals(cart.getMessage().get().stream().filter(x -> x.contains("Flat")).findAny(),
                 Optional.of("Flat Rs.200 discount on amount Rs.1377.5 is Rs.1177.5"));
     }
@@ -99,6 +102,7 @@ public class BookStoreApplicationTests {
         int[] arr = {100, 101, 102, 103, 104, 105, 106, 107};
 
         Cart cart = restTemplate.postForObject(uri, arr, Cart.class);
+        assert cart != null;
         Assert.assertEquals(cart.getMessage().get().stream().filter(x -> x.contains(String.format("Promo code %s is invalid or inactive", "flat300"))).findAny(),
                 Optional.of("Promo code flat300 is invalid or inactive"));
     }
