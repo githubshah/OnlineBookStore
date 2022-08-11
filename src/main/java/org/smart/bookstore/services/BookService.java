@@ -4,6 +4,8 @@ import org.smart.bookstore.data.repositories.entities.Book;
 import org.smart.bookstore.data.repositories.entities.Discount;
 import org.smart.bookstore.data.repositories.entities.PromoCode;
 import org.smart.bookstore.model.Cart;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +14,7 @@ public interface BookService {
     
     Optional<Book> findOneById(Integer id);
     
-    List<Book> getAll();
+    List<Book> getAll(PageRequest of);
 
     Optional<Book> save(Book t);
     

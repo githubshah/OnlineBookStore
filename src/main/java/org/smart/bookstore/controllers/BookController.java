@@ -6,10 +6,14 @@ import org.smart.bookstore.data.repositories.entities.PromoCode;
 import org.smart.bookstore.model.Cart;
 import org.smart.bookstore.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -22,11 +26,15 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping(path = "")
-    public ResponseEntity<List<Book>> getBook(@RequestParam Optional<Integer> id) {
+    public ResponseEntity<List<Book>> getBook(@RequestParam Optional<Integer> id,
+                                              @RequestParam Optional<Integer> page,
+                                              @RequestParam Optional<Integer> size) {
+
+
         return id.map(bookId -> bookService.findOneById(bookId)
                         .map(book -> new ResponseEntity<>(Collections.singletonList(book), HttpStatus.OK))
                         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND)))
-                .orElse(new ResponseEntity<>(bookService.getAll(), HttpStatus.OK));
+                .orElse(new ResponseEntity<>(bookService.getAll(PageRequest.of(page.orElse(0), size.orElse(10))), HttpStatus.OK));
     }
 
     @GetMapping(path = "/{id}")
