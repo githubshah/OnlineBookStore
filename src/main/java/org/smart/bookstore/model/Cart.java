@@ -48,4 +48,14 @@ class Cart {
     public List<Book> getBooks() {
         return books;
     }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "promoCode=" + promoCode +
+                ", payableAmount=" + payableAmount +
+                ", message=" + message +
+                ", books=" + books +
+                '}';
+    }
 }

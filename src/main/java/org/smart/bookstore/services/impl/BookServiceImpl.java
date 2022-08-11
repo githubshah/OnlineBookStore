@@ -33,7 +33,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<Book> findOneById(Integer id) {
-        return Optional.of(bookRepository.getOne(id));
+        return bookRepository.findById(id);
     }
 
     @Override

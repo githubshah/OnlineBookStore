@@ -2,11 +2,11 @@ package org.smart.bookstore;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.smart.bookstore.data.repositories.entities.Book;
+import org.smart.bookstore.data.entities.Book;
+import org.smart.bookstore.model.Cart;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,17 +19,57 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-//@Sql({"/scheema.sql", "/data.sql"})
 public class BookStoreApplicationTests {
     @LocalServerPort
     int randomServerPort;
 
     @Test
-    public void testGetEmployeeListSuccess() throws URISyntaxException, InterruptedException {
+    public void getAllBooks() throws URISyntaxException {
         RestTemplate restTemplate = new RestTemplate();
-        final String baseUrl = "http://localhost:" + randomServerPort + "/";
+        final String baseUrl = "http://localhost:" + randomServerPort + "/books";
         URI uri = new URI(baseUrl);
         ResponseEntity<List> result = restTemplate.getForEntity(uri, List.class);
         System.out.println(result.getBody());
+    }
+
+    @Test
+    public void getBooksByPagination() throws URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+        final String baseUrl = "http://localhost:" + randomServerPort + "/books?size=2&page=2";
+        URI uri = new URI(baseUrl);
+        ResponseEntity<List> result = restTemplate.getForEntity(uri, List.class);
+        System.out.println(result.getBody());
+    }
+
+    @Test
+    public void getBookByPathVariable() throws URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+        final String baseUrl = "http://localhost:" + randomServerPort + "/books/100";
+        URI uri = new URI(baseUrl);
+        ResponseEntity<Book> result = restTemplate.getForEntity(uri, Book.class);
+        System.out.println(result.getBody());
+    }
+
+    @Test
+    public void getBookByRequestParam() throws URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+        final String baseUrl = "http://localhost:" + randomServerPort + "/books?id=100";
+        URI uri = new URI(baseUrl);
+        ResponseEntity<List> result = restTemplate.getForEntity(uri, List.class);
+        System.out.println(result.getBody());
+    }
+
+    @Test
+    public void checkout() throws URISyntaxException {
+        RestTemplate restTemplate = new RestTemplate();
+        final String baseUrl = "http://localhost:" + randomServerPort + "/books/checkout";
+        URI uri = new URI(baseUrl);
+
+        int[] arr = {100, 101};
+
+        Cart cart = restTemplate.postForObject(uri, arr, Cart.class);
+        System.out.println(cart);
+
+
     }
 }
