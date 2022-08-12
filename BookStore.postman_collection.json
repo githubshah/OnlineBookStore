@@ -1,0 +1,98 @@
+{
+	"info": {
+		"_postman_id": "93b288f7-0b3e-4ef8-870f-5094c63bdafd",
+		"name": "BookStore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16250941"
+	},
+	"item": [
+		{
+			"name": "applyPromocodeOncheckout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    100,101,102,103,104\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/books/checkout?promoCode=flat200",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"books",
+						"checkout"
+					],
+					"query": [
+						{
+							"key": "promoCode",
+							"value": "flat200"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBooksByPagination",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaGFoIiwiZXhwIjoxNjUzNjg5MTQzLCJpYXQiOjE2NTM2NTMxNDN9.D_VOiMIDZwtO1GArTFDjRPv1Y12GFTkS44D8elbOCv8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8081/books?size=2&page=2",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"books"
+					],
+					"query": [
+						{
+							"key": "size",
+							"value": "2"
+						},
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBookByPathId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/books/100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"books",
+						"100"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
