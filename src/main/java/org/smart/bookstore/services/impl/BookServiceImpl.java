@@ -57,6 +57,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Discount> getDiscountList() {
+        return discountRepository.findAll();
+    }
+
+    @Override
+    public List<PromoCode> getPromoCodeList() {
+        return promoCodeRepository.findAll();
+    }
+
+    @Override
     public Optional<Integer> delete(int id) {
         bookRepository.deleteById(id);
         return Optional.of(id);

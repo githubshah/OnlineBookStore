@@ -67,4 +67,14 @@ public class BookController {
         return bookService.save(book).map(persistBook -> new ResponseEntity<>(persistBook, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @GetMapping(path = "discount")
+    public ResponseEntity<List<Discount>> getDiscountList() {
+        return new ResponseEntity<>(bookService.getDiscountList(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "promocode")
+    public ResponseEntity<List<PromoCode>> getPromocodeList() {
+        return new ResponseEntity<>(bookService.getPromoCodeList(), HttpStatus.OK);
+    }
 }

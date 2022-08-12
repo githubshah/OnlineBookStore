@@ -93,6 +93,46 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "getAllDiscount",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/books/discount",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"books",
+						"discount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllPromoCode",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/books/promocode",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"books",
+						"promocode"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

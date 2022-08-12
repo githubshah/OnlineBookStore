@@ -24,4 +24,8 @@ public interface BookService {
     Discount saveDiscount(Discount discount);
 
     PromoCode savePromoCode(PromoCode promoCode);
+
+    List<Discount> getDiscountList();
+
+    List<PromoCode> getPromoCodeList();
 }
